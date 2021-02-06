@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeckBot.Core", "HeckBot.Core\HeckBot.Core.csproj", "{2A148A9C-01CD-4F75-9469-5A31004C871A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heck.Core.Data", "Heck.Core.Data\Heck.Core.Data.csproj", "{31695C5F-B75D-4ACB-94A5-DB2ECB45C3FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A148A9C-01CD-4F75-9469-5A31004C871A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A148A9C-01CD-4F75-9469-5A31004C871A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A148A9C-01CD-4F75-9469-5A31004C871A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A148A9C-01CD-4F75-9469-5A31004C871A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31695C5F-B75D-4ACB-94A5-DB2ECB45C3FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31695C5F-B75D-4ACB-94A5-DB2ECB45C3FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31695C5F-B75D-4ACB-94A5-DB2ECB45C3FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31695C5F-B75D-4ACB-94A5-DB2ECB45C3FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {291476FB-3082-42CD-85F6-748CB1C79AA3}
+	EndGlobalSection
+EndGlobal
