@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /Heck.Core.Data/CustomMysqlDBContext.cs
+/HeckBot.Core/Modules/Secrets.cs

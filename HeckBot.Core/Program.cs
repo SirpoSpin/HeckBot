@@ -6,6 +6,7 @@ using System.Timers;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using HeckBot.Core.Modules;
 using HeckBot.Modules;
 
 namespace HeckBot.Core
@@ -34,7 +35,7 @@ namespace HeckBot.Core
             Client = new DiscordSocketClient(config);
             Commands = new CommandService();
 
-            string token = "Nzk3ODYyOTcyMTM5MzcyNTU0.X_spzA.A4GgWF_9gf_aE20thAB3_zXaOIg";
+            string token = Secrets.BotToken;
             Client.Log += Client_Log;
             await RegisterCommandsAsync();
             await Client.LoginAsync(TokenType.Bot, token);
