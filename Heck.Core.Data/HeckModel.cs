@@ -23,7 +23,7 @@ namespace Heck.Core.Data
                 cmd.Connection = connection;
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UserID", UserID);
-                cmd.Parameters.Add("@HeckedUserID", MySqlDbType.Int32).Value = UserID;
+                cmd.Parameters.Add("@HeckedUserID", MySqlDbType.Int32).Value = HeckedUserID;
                 cmd.Parameters.Add("@Reason", MySqlDbType.VarChar).Value = Name;
                 cmd.Parameters.Add("@HeckValue", MySqlDbType.Decimal).Value = Value;
                 using (MySqlDataAdapter sda = new MySqlDataAdapter(cmd))

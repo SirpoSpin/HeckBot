@@ -197,12 +197,12 @@ namespace HeckBot.Modules
         [Command("roadmap")]
         public async Task RoadMap()
         {
-            await ReplyAsync($"Here is what is planned, you heckuva bench. \r\n"
-               + "A hecks detail command that outputs the heck value, reason and who hecked you for your last 5 hecks.\r\n\r\n\r\n"
-               + "The patent pending Heck Buff system.\r\n\r\n"
-               + "Heck expirations. Keeping things competitive!\r\n\r\n"
-               + "A command that will send your parents to heck.\r\n\r\n"
-               + "Occasional input in conversation from the heck master itself, heck bot!\r\n\r\n"
+            await ReplyAsync($"Here is what is planned, you heckuva bench. \r\n\r\n"
+               + "1. A hecks detail command that outputs the heck value, reason and who hecked you for your last 5 hecks.\r\n"
+               + "2. The patent pending Heck Buff system.\r\n"
+               + "3. Heck expirations. Keeping things competitive!\r\n"
+               + "4. A command that will send your parents to heck.\r\n"
+               + "5. Occasional input in conversation from the heck master itself, heck bot!\r\n\r\n"
                + "Have a hecking day!");
         }
 
