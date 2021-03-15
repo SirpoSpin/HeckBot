@@ -35,8 +35,8 @@ namespace HeckBot.Modules
                 return;
             }
             HeckGuild guild = GetContextGuild();
-            HeckUser usr = utils.GetHeckUser(Context.Message.Author.Id.ToString(), guild.ID, true);
-            HeckUser mUsr = utils.GetHeckUser(dMUser.Id.ToString(), guild.ID, true);
+            HeckUser usr = utils.GetHeckUser(Context.Message.Author.Id.ToString(), guild.ID, Context.Message.Author.Username, true);
+            HeckUser mUsr = utils.GetHeckUser(dMUser.Id.ToString(), guild.ID, dMUser.Username, true);
 
             if ((Value ?? 0) == 0)
                 Value = 1;
@@ -83,8 +83,8 @@ namespace HeckBot.Modules
                 return;
             }
             HeckGuild guild = GetContextGuild();
-            HeckUser usr = utils.GetHeckUser(Context.Message.Author.Id.ToString(), guild.ID, true);
-            HeckUser mUsr = utils.GetHeckUser(dMUser.Id.ToString(), guild.ID, true);
+            HeckUser usr = utils.GetHeckUser(Context.Message.Author.Id.ToString(), guild.ID, Context.Message.Author.Username, true);
+            HeckUser mUsr = utils.GetHeckUser(dMUser.Id.ToString(), guild.ID, dMUser.Username, true);
 
             if ((Value ?? 0) == 0)
                 Value = 1;
@@ -129,7 +129,7 @@ namespace HeckBot.Modules
                 await ReplyAsync("Oh heck...That's a bot, bots are immune to hecks.");
                 return;
             }
-            HeckUser usr = utils.GetHeckUser(dUser.Id.ToString(), guild.ID, true);
+            HeckUser usr = utils.GetHeckUser(dUser.Id.ToString(), guild.ID, dUser.Username, true);
             UserHeckTotal userHeckTotal = utils.GetUserHeckTotal(usr.ID);
 
             if (userHeckTotal != null)
@@ -161,7 +161,7 @@ namespace HeckBot.Modules
                 builder.WithTitle(Context.Guild.Name + " Heck Leaderboard"); 
                 foreach (UserHeckTotal ttl in lst)
                 {
-                    builder.AddField(index.ToString() + ". " + ttl.User.Nickname, ttl.HecksWeighted + " Heck(s) Weighted");
+                    builder.AddField(index.ToString() + ". " + ttl.User.UserName, ttl.HecksWeighted + " Heck(s) Weighted");
                     index++;
                 }
 

@@ -12,7 +12,7 @@ namespace Heck.Core.Data
         {
         }
 
-        public DataResponse HeckingCreate(string Snowflake, int GuildID)
+        public DataResponse HeckingCreate(string Snowflake, string Username, int GuildID)
         {
             DataResponse resp;
             connection.Open();
@@ -20,9 +20,10 @@ namespace Heck.Core.Data
             {
                 cmd.Connection = connection;
                 cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "INSERT INTO heckuser (GuildID, DiscordSnowflake, CreatedDate, AvailableHecks) VALUES (@guildid, @snowflake, @date, 100)";
+                cmd.CommandText = "INSERT INTO heckuser (GuildID, DiscordSnowflake, username, CreatedDate, AvailableHecks) VALUES (@guildid, @snowflake, @username, @date, 100)";
                 cmd.Parameters.Add("@snowflake", MySqlDbType.VarChar).Value = Snowflake;
                 cmd.Parameters.Add("@date", MySqlDbType.DateTime).Value = DateTime.Now;
+                cmd.Parameters.Add("@username", MySqlDbType.VarChar).Value = Username;
                 cmd.Parameters.Add("@guildid", MySqlDbType.Int32).Value = GuildID;
 
                 cmd.ExecuteNonQuery();
@@ -128,8 +129,9 @@ namespace Heck.Core.Data
             item.ID = Convert.ToInt32(dt.Rows[0][0]);
             item.GuildID = Convert.ToInt32(dt.Rows[0][1]);
             item.Snowflake = Convert.ToString(dt.Rows[0][2]);
-            item.AvailableHecks = Convert.ToInt32(dt.Rows[0][3]);
-            item.CreatedDate = Convert.ToDateTime(dt.Rows[0][4]);
+            item.UserName = Convert.ToString(dt.Rows[0][3]);
+            item.AvailableHecks = Convert.ToInt32(dt.Rows[0][4]);
+            item.CreatedDate = Convert.ToDateTime(dt.Rows[0][5]);
             return item;
         }
 
@@ -140,6 +142,6 @@ namespace Heck.Core.Data
         public int GuildID { get; set; }
         public string Snowflake { get; set; }
         public int AvailableHecks { get; set; }
-        public string Nickname { get; set; }
+        public string UserName { get; set; }
     }
 }

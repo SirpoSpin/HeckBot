@@ -37,10 +37,17 @@ namespace HeckBot.Core
 
             string token = Secrets.BotToken;
             Client.Log += Client_Log;
+            Commands.Log += Commands_log;
             await RegisterCommandsAsync();
             await Client.LoginAsync(TokenType.Bot, token);
             await Client.StartAsync();
             await Task.Delay(-1);
+        }
+
+        private Task Commands_log(LogMessage arg)
+        {
+            Console.WriteLine(arg);
+            return Task.CompletedTask;
         }
 
         private Task Client_Log(LogMessage arg)
@@ -88,10 +95,10 @@ namespace HeckBot.Core
             var context = new SocketCommandContext(Client, message);
             // Execute the command with the command context we just
             // created, along with the service provider for precondition checks.
-            await Commands.ExecuteAsync(
-                context: context,
-                argPos: argPos,
-                services: null);
+                await Commands.ExecuteAsync(
+                    context: context,
+                    argPos: argPos,
+                    services: null);
         }
 
         public void SetTimer()

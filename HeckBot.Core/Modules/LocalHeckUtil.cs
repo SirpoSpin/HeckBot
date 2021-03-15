@@ -25,10 +25,10 @@ namespace HeckBot.Modules
             return resp.Result;
         }
 
-        public bool CreateHeckUser(string SnowFlake, int GuildID)
+        public bool CreateHeckUser(string SnowFlake, string Username, int GuildID)
         {
             HeckUserModel model = new HeckUserModel(null);
-            DataResponse resp = model.HeckingCreate(SnowFlake, GuildID);
+            DataResponse resp = model.HeckingCreate(SnowFlake, Username, GuildID);
             return resp.Result;
         }
 
@@ -48,14 +48,14 @@ namespace HeckBot.Modules
             return item;
         }
 
-        public HeckUser GetHeckUser(string SnowFlake, int GuildID, bool CreateIfNotExists)
+        public HeckUser GetHeckUser(string SnowFlake, int GuildID, string UserName, bool CreateIfNotExists)
         {
             HeckUser item = null;
             HeckUserModel model = new HeckUserModel(null);
             DataResponse resp = model.GetUserBySnowflakeAndGuildID(SnowFlake, GuildID);
             if (!resp.Result && CreateIfNotExists)
             {
-                if (CreateHeckUser(SnowFlake, GuildID))
+                if (CreateHeckUser(SnowFlake, UserName, GuildID))
                     resp = model.GetUserBySnowflakeAndGuildID(SnowFlake, GuildID);
             }
             if (resp != null)
@@ -105,7 +105,7 @@ namespace HeckBot.Modules
                     }
                     if (dUser.IsBot)
                         continue;
-                    ttl.User.Nickname = dUser.Username;
+                    ttl.User.UserName = dUser.Username;
                     lst.Add(ttl);
                 }
             }

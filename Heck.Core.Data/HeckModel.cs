@@ -14,7 +14,7 @@ namespace Heck.Core.Data
 
         public DataResponse HeckingCreate(int UserID, int HeckedUserID, string Name, float Value)
         {
-            Value = Value + 0.00f;
+            Value = Value * 1.00f;
             DataResponse resp;
             connection.Open();
             DataTable dt = new DataTable();
@@ -25,7 +25,7 @@ namespace Heck.Core.Data
                 cmd.Parameters.AddWithValue("@UserID", UserID);
                 cmd.Parameters.Add("@HeckedUserID", MySqlDbType.Int32).Value = HeckedUserID;
                 cmd.Parameters.Add("@Reason", MySqlDbType.VarChar).Value = Name;
-                cmd.Parameters.Add("@HeckValue", MySqlDbType.Decimal).Value = Value;
+                cmd.Parameters.Add("@HeckValue", MySqlDbType.VarChar).Value = Value;
                 using (MySqlDataAdapter sda = new MySqlDataAdapter(cmd))
                 {
                     sda.Fill(dt);
