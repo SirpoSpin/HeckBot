@@ -118,8 +118,9 @@ namespace Heck.Core.Data
             item.ID = Convert.ToInt32(dr[0]);
             item.GuildID = Convert.ToInt32(dr[1]);
             item.Snowflake = Convert.ToString(dr[2]);
-            item.AvailableHecks = Convert.ToInt32(dr[3]);
-            item.CreatedDate = Convert.ToDateTime(dr[4]);
+            item.UserName = Convert.ToString(dr[3]);
+            item.AvailableHecks = Convert.ToInt32(dr[4]);
+            item.CreatedDate = Convert.ToDateTime(dr[5]);
             return item;
         }
 
