@@ -18,7 +18,21 @@ namespace HeckBot.Modules
         {
             if (Context.Message.Author.IsBot)
                 return;
-            IUser dMUser = Context.Message.MentionedUsers.FirstOrDefault();
+            
+            HeckGuild guild = GetContextGuild();
+            HeckUser usr = null;
+            HeckUser mUsr = null;
+            IUser dMUser = null;
+
+            if (Context.Message.ReferencedMessage != null)
+            {
+                dMUser = Context.Message.ReferencedMessage.Author;
+                Name = "For your message: " + Context.Message.ReferencedMessage.Content;
+            }
+            else
+            {
+                dMUser = Context.Message.MentionedUsers.FirstOrDefault();
+            }
             if (dMUser == null)
             {
                 await ReplyAsync("Go heck yourself! You must specify a user.");
@@ -29,14 +43,13 @@ namespace HeckBot.Modules
                 await ReplyAsync("Get heck'd buddy! You must specify a reason to heck this person.");
                 return;
             }
-            if(dMUser.IsBot)
+            if (dMUser.IsBot)
             {
                 await ReplyAsync("Oh heck...That's a bot, bots are immune to hecks.");
                 return;
             }
-            HeckGuild guild = GetContextGuild();
-            HeckUser usr = utils.GetHeckUser(Context.Message.Author.Id.ToString(), guild.ID, Context.Message.Author.Username, true);
-            HeckUser mUsr = utils.GetHeckUser(dMUser.Id.ToString(), guild.ID, dMUser.Username, true);
+            mUsr = utils.GetHeckUser(dMUser.Id.ToString(), guild.ID, dMUser.Username, true);
+            usr = utils.GetHeckUser(Context.Message.Author.Id.ToString(), guild.ID, Context.Message.Author.Username, true);
 
             if ((Value ?? 0) == 0)
                 Value = 1;
@@ -88,14 +101,9 @@ namespace HeckBot.Modules
 
             if ((Value ?? 0) == 0)
                 Value = 1;
-            if ((usr.AvailableHecks - Value.Value) < 0)
+            if ((usr.AvailableHecks - Math.Abs(Value.Value)) < 0)
             {
                 await ReplyAsync("Oh heck! You have don't have enough hecks left to give for that amount of heck.");
-                return;
-            }
-            if (Value.Value < -100)
-            {
-                await ReplyAsync("Hecking rough dude, you can't heck that low.");
                 return;
             }
 
@@ -176,58 +184,145 @@ namespace HeckBot.Modules
         [Command("help")]
         public async Task Help()
         {
-            await ReplyAsync($"Hello! I am friend heck bot. My friends call me heck bot. \r\n"
-               + "You may speak to me using the following commands. \r\n\r\n\r\n" 
-               + "&heck: Use this command, then specify a user, a value (Not required. Defaults to 1. User must have hecks available to heck with.), and a reason for their hecking.\r\n\r\n"
-               + "&info: Use this command to see your heck total and available hecks. You may also mention a user specifically to see their heck total.\r\n\r\n"
-               + "&leaderboard: Allows you to see the current users in the server ranked by heck-ness.\r\n\r\n"
-               + "&version: Display current heck version.\r\n\r\n"
-               + "&roadmap: See what is planned for the FUTURE. @.@ \r\n\r\n"
-               + "&who: I guess I can tell you what's up. Use this command to find out what the heck is going on. @.@ \r\n\r\n"
-               + "&help: Displays this message. Heck you.");
+            HeckParameter param = utils.GetHeckParameterByName("HELP");
+            if (param != null)
+            {
+                await ReplyAsync(param.Param_Value);
+            }
         }
 
         [Command("who")]
         public async Task Who()
         {
-            await ReplyAsync($"So the whole point of this bot is so you can heck people. What is a heck? Well...we'll find out one day. " +
-                $"Hecks refill to a specific value once a day. Once you are at 0 hecks, you can't heck anymore. I will also keep track of all the hecks everyone has and display them in a leaderboard. Have fun and go to heck.");
+            HeckParameter param = utils.GetHeckParameterByName("WHO");
+            if (param != null)
+            {
+                await ReplyAsync(param.Param_Value);
+            }
         }
 
         [Command("roadmap")]
         public async Task RoadMap()
         {
-            await ReplyAsync($"Here is what is planned, you heckuva bench. \r\n\r\n"
-               + "1. A hecks detail command that outputs the heck value, reason and who hecked you for your last 5 hecks.\r\n"
-               + "2. The patent pending Heck Buff system.\r\n"
-               + "3. Heck expirations. Keeping things competitive!\r\n"
-               + "4. A command that will send your parents to heck.\r\n"
-               + "5. Occasional input in conversation from the heck master itself, heck bot!\r\n\r\n"
-               + "Have a hecking day!");
+            HeckParameter param = utils.GetHeckParameterByName("ROADMAP");
+            if (param != null)
+            {
+                await ReplyAsync(param.Param_Value);
+            }
         }
 
         [Command("version")]
         public async Task Version()
         {
-            string version = "0.0.0.306 pre-alpha";
-            var rnd = new Random();
-            int val = rnd.Next(1, 10);
-            switch (val)
+            HeckParameter param = utils.GetHeckParameterByName("VERSION");
+            if (param != null)
             {
-                case 1:
-                case 3:
-                case 9:
-                    await ReplyAsync($"Heck you for asking...but I am version " + version + "...");
-                    break;
-                case 2:
-                case 4:
-                case 8:
-                    await ReplyAsync($"Oh heck yeah I am today years old and version " + version + "!");
-                    break;
-                default:
-                    await ReplyAsync($"You are looking at version " + version + "! Heck me up, fam!");
-                    break;
+                string version = param.Param_Value;
+                var rnd = new Random();
+                int val = rnd.Next(1, 10);
+                switch (val)
+                {
+                    case 1:
+                    case 3:
+                    case 9:
+                        await ReplyAsync($"Heck you for asking...but I am version " + version + "...");
+                        break;
+                    case 2:
+                    case 4:
+                    case 8:
+                        await ReplyAsync($"Oh heck yeah I am today years old and version " + version + "!");
+                        break;
+                    default:
+                        await ReplyAsync($"You are looking at version " + version + "! Heck me up, fam!");
+                        break;
+                }
             }
+        }
+
+        [Command("rec")]
+        public async Task ReceivedHecks(string userm = null)
+        {
+            if (Context.Message.Author.IsBot)
+                return;
+            HeckGuild guild = GetContextGuild();
+            IUser dUser = null;
+            if (string.IsNullOrWhiteSpace(userm))
+                dUser = Context.Message.Author;
+            else
+                dUser = Context.Message.MentionedUsers.FirstOrDefault();
+            if (dUser == null)
+            {
+                await ReplyAsync("Go heck yourself! You must specify a user.");
+                return;
+            }
+            if (dUser.IsBot)
+            {
+                await ReplyAsync("Oh heck...That's a bot, bots are immune to hecks.");
+                return;
+            }
+            HeckUser usr = utils.GetHeckUser(dUser.Id.ToString(), guild.ID, dUser.Username, true);
+            List<HeckTextRecord> hecks = utils.GetHecksReceived(usr.ID);
+
+            if (hecks.Count > 0)
+            {
+                var builder = new EmbedBuilder();
+                int index = 1;
+                builder.WithTitle(dUser.Username + " Hecks Received");
+
+                foreach (HeckTextRecord heck in hecks)
+                {
+                    builder.AddField(index.ToString(), heck.Value);
+                    index++;
+                }
+                builder.WithColor(Color.Red);
+                Embed embed = builder.Build();
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            else
+                await ReplyAsync($"Could not locate hecks received for user.");
+        }
+
+        [Command("sent")]
+        public async Task SentHecks(string userm = null)
+        {
+            if (Context.Message.Author.IsBot)
+                return;
+            HeckGuild guild = GetContextGuild();
+            IUser dUser = null;
+            if (string.IsNullOrWhiteSpace(userm))
+                dUser = Context.Message.Author;
+            else
+                dUser = Context.Message.MentionedUsers.FirstOrDefault();
+            if (dUser == null)
+            {
+                await ReplyAsync("Go heck yourself! You must specify a user.");
+                return;
+            }
+            if (dUser.IsBot)
+            {
+                await ReplyAsync("Oh heck...That's a bot, bots are immune to hecks.");
+                return;
+            }
+            HeckUser usr = utils.GetHeckUser(dUser.Id.ToString(), guild.ID, dUser.Username, true);
+            List<HeckTextRecord> hecks = utils.GetHecksSent(usr.ID);
+
+            if (hecks.Count > 0)
+            {
+                var builder = new EmbedBuilder();
+                int index = 1;
+                builder.WithTitle(dUser.Username + " Hecks Sent");
+
+                foreach (HeckTextRecord heck in hecks)
+                {
+                    builder.AddField(index.ToString(), heck.Value);
+                    index++;
+                }
+                builder.WithColor(Color.Red);
+                Embed embed = builder.Build();
+                await Context.Channel.SendMessageAsync("", false, embed);
+            }
+            else
+                await ReplyAsync($"Could not locate hecks sent for user.");
         }
 
     }

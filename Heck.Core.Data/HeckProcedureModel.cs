@@ -43,6 +43,58 @@ namespace Heck.Core.Data
             return resp;
         }
 
+        public DataResponseTextRecordList GetReceivedHecks(int UserID)
+        {
+            DataResponseTextRecordList resp;
+            connection.Open();
+            DataTable dt = new DataTable();
+            using (MySqlCommand cmd = new MySqlCommand("HecksReceived"))
+            {
+                cmd.Connection = connection;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+                using (MySqlDataAdapter sda = new MySqlDataAdapter(cmd))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            List<HeckTextRecord> item = HeckTextRecordListColumnMapper(dt);
+            if (item == null)
+                resp = new DataResponseTextRecordList("Hecks Received could not be found.", true);
+            else
+            {
+                resp = new DataResponseTextRecordList("Received Received Found", true);
+                resp.List = item;
+            }
+            return resp;
+        }
+
+        public DataResponseTextRecordList GetSentHecks(int UserID)
+        {
+            DataResponseTextRecordList resp;
+            connection.Open();
+            DataTable dt = new DataTable();
+            using (MySqlCommand cmd = new MySqlCommand("HecksSent"))
+            {
+                cmd.Connection = connection;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", UserID);
+                using (MySqlDataAdapter sda = new MySqlDataAdapter(cmd))
+                {
+                    sda.Fill(dt);
+                }
+            }
+            List<HeckTextRecord> item = HeckTextRecordListColumnMapper(dt);
+            if (item == null)
+                resp = new DataResponseTextRecordList("Hecks Sent could not be found.", true);
+            else
+            {
+                resp = new DataResponseTextRecordList("Hecks Sent Found", true);
+                resp.List = item;
+            }
+            return resp;
+        }
+
         public bool ResetAvailableHecks()
         {
             connection.Open();
@@ -68,6 +120,10 @@ namespace Heck.Core.Data
             {
                 return UserHeckTotalColumnMapper(dataTable);
             }
+            else if (dataTable.Columns[0].ColumnName == "HeckItem")
+            {
+                return HeckTextRecordColumnMapper(dataTable);
+            }
             return null;
 
         }
@@ -81,6 +137,24 @@ namespace Heck.Core.Data
             item.AvailableHecks = float.Parse(Convert.ToString(dataTable.Rows[0][3]));
             return item;
         }
+        private HeckTextRecord HeckTextRecordColumnMapper(DataTable dataTable)
+        {
+            HeckTextRecord item = new HeckTextRecord();
+            item.Value = Convert.ToString(dataTable.Rows[0][0]);
+            return item;
+        }
+
+        private List<HeckTextRecord> HeckTextRecordListColumnMapper(DataTable dataTable)
+        {
+            List<HeckTextRecord> list = new List<HeckTextRecord>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                HeckTextRecord item = new HeckTextRecord();
+                item.Value = Convert.ToString(row[0]);
+                list.Add(item);
+            }
+            return list;
+        }
     }
 
     public class UserHeckTotal : ModelBase
@@ -90,5 +164,10 @@ namespace Heck.Core.Data
         public float HecksWeighted { get; set; }
         public float AvailableHecks { get; set; }
         public HeckUser User { get; set; }
+    }
+
+    public class HeckTextRecord : ModelBase
+    {
+        public string Value { get; set; }
     }
 }

@@ -15,4 +15,10 @@ namespace Heck.Core.Data
         public string Message { get; set; }
         public bool Result { get; set; }
     }
+    public class DataResponseTextRecordList : DataResponse
+    {
+        public DataResponseTextRecordList(string message, bool result) : base(message, result)
+        { }
+        public List<HeckTextRecord> List { get; set; }
+    }
 }

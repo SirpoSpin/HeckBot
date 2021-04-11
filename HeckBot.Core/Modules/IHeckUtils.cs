@@ -16,7 +16,10 @@ namespace HeckBot.Modules
         bool CreateHeckUser(string SnowFlake, string Username, int GuildID);
         bool CreateHeckGuild(string SnowFlake);
         UserHeckTotal GetUserHeckTotal(int UserID);
+        List<HeckTextRecord> GetHecksReceived(int UserID);
+        List<HeckTextRecord> GetHecksSent(int UserID);
         bool ResetAvailableHecks();
         List<UserHeckTotal> GetLeaderboard(SocketCommandContext Context);
+        HeckParameter GetHeckParameterByName(string Name);
     }
 }

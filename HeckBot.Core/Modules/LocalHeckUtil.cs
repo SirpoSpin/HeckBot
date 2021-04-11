@@ -75,6 +75,22 @@ namespace HeckBot.Modules
             return item;
         }
 
+        public List<HeckTextRecord> GetHecksReceived(int UserID)
+        {
+            HeckProcedureModel model = new HeckProcedureModel(null);
+            DataResponseTextRecordList resp = model.GetReceivedHecks(UserID);
+            model.Dispose();
+            return resp.List ?? new List<HeckTextRecord>();
+        }
+
+        public List<HeckTextRecord> GetHecksSent(int UserID)
+        {
+            HeckProcedureModel model = new HeckProcedureModel(null);
+            DataResponseTextRecordList resp = model.GetSentHecks(UserID);
+            model.Dispose();
+            return resp.List ?? new List<HeckTextRecord>();
+        }
+
         public List<UserHeckTotal> GetLeaderboard(SocketCommandContext Context)
         {
             IGuild dGuild = Context.Guild;
@@ -119,6 +135,17 @@ namespace HeckBot.Modules
             model.ResetAvailableHecks();
             model.Dispose();
             return true;
+        }
+
+        public HeckParameter GetHeckParameterByName(string Name)
+        {
+            HeckParameter item = null;
+            HeckParameterModel model = new HeckParameterModel(null);
+            DataResponse resp = model.GetParamByName(Name);
+            if (resp != null)
+                item = resp.Item as HeckParameter;
+            model.Dispose();
+            return item;
         }
     }
 }
