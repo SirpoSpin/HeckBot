@@ -1,0 +1,10 @@
+CREATE TABLE `heckparameter` (
+  `ID` int AUTO_INCREMENT NOT NULL,
+  `PARAM_NAME` varchar(100) NOT NULL,
+  `PARAM_VALUE` varchar(9999) NOT NULL,
+  `LastUpdateDate` datetime NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `PARAM_NAME_UNIQUE` (`PARAM_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
