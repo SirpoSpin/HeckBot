@@ -53,7 +53,7 @@ namespace HeckBot.Modules
 
             if ((Value ?? 0) == 0)
                 Value = 1;
-            if ((usr.AvailableHecks - Value.Value) <  0)
+            if ((usr.AvailableHecks - Math.Abs(Value.Value)) < 0)
             {
                 await ReplyAsync("Oh heck! You have don't have enough hecks left to give for that amount of heck.");
                 return;
