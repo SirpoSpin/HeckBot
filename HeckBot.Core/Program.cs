@@ -60,8 +60,24 @@ namespace HeckBot.Core
         {
             Client.MessageReceived += HandleCommandAsync;
             Client.GuildAvailable += Client_GuildAvailable;
+            Client.GuildMemberUpdated += Client_GuildMemberUpdated;
             await Commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
                                             services: null);
+        }
+
+        private Task Client_GuildMemberUpdated(SocketGuildUser arg1, SocketGuildUser arg2)
+        {
+            if(arg1.Username == "HeckBot")
+            {
+                if (arg2.Nickname != null)
+                {
+                    arg1.ModifyAsync(x =>
+                    {
+                        x.Nickname = null;
+                    });
+                }
+            }
+            return Task.CompletedTask;
         }
 
         private Task Client_GuildAvailable(SocketGuild arg)
@@ -89,7 +105,7 @@ namespace HeckBot.Core
             // Determine if the message is a command based on the prefix and make sure no bots trigger commands
             if (!(message.HasCharPrefix('&', ref argPos) ||
                 message.Author.IsBot))
-                if(message.Content.ToUpper() != "HECK U" && message.Content.ToUpper() != "HECK YOU")
+                if(!message.Content.ToUpper().StartsWith("HECK U") && !message.Content.ToUpper().StartsWith("HECK YOU"))
                 return;
 
             // Create a WebSocket-based command context based on the message

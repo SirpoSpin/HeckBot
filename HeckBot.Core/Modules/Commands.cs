@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace HeckBot.Modules
@@ -27,7 +28,17 @@ namespace HeckBot.Modules
             if (Context.Message.ReferencedMessage != null)
             {
                 dMUser = Context.Message.ReferencedMessage.Author;
-                Name = "For your message: " + Context.Message.ReferencedMessage.Content;
+                if (Context.Message.Content == "heck u")
+                {
+                    Name = "For your message: " + Context.Message.ReferencedMessage.Content;
+                }
+                else
+                {
+                    string heckReason = Context.Message.Content.Replace("&heck", "");
+                    heckReason = Regex.Replace(heckReason, @"[\d-]", string.Empty);
+
+                    Name = heckReason.Trim();
+                }
             }
             else
             {
@@ -79,7 +90,26 @@ namespace HeckBot.Modules
             if (Context.Message.Author.IsBot)
                 return;
             float? Value = 1;
-            IUser dMUser = Context.Message.MentionedUsers.FirstOrDefault();
+            IUser dMUser = null;
+
+            if (Context.Message.ReferencedMessage != null)
+            {
+                dMUser = Context.Message.ReferencedMessage.Author;
+                if (Context.Message.Content == "heck u")
+                {
+                    Name = "For your message: " + Context.Message.ReferencedMessage.Content;
+                }
+                else
+                {
+                    string heckReason = Context.Message.Content.Replace("&heck", "");
+
+                    Name = heckReason;
+                }
+            }
+            else
+            {
+                dMUser = Context.Message.MentionedUsers.FirstOrDefault();
+            }
             if (dMUser == null)
             {
                 await ReplyAsync("Go heck yourself! You must specify a user.");
