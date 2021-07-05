@@ -2,8 +2,8 @@ USE heckdata;
 
 SHOW EVENTS;
 
-#CREATE
-ALTER 
+CREATE
+#ALTER 
 EVENT eve_tbl_available_hecks_update
     ON SCHEDULE EVERY 5 MINUTE
     DO
